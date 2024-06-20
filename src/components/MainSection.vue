@@ -44,29 +44,40 @@
 
     data() {
       return {
+
+        // состояние попапа
         popupState: false as boolean,
+
+        // все задачи
         tasksData: [] as Task[],
+
+        // одна выбранная задача
         taskData: null as Task | null,
       }
     },
 
     methods: {
+
+      // меняет состояние попапа
       setPopupState(): void {
         this.popupState = !this.popupState;
       },
 
+      // запрос для создания задачи
       createTask(data: {[key:string]: string}): void {
         taskApi.createTask(data)
         .then((res: Task) => this.tasksData.push(res))
         .catch((err: Error) => console.error(err));
       },
 
+      // получение всех задач
       getAllTasks(): void {
         taskApi.getAllTasks()
         .then((res: Task[]) => this.tasksData = res)
         .catch((err: Error) => console.error(err));
       },
 
+      // редактирование задачи
       editTask(data: {[key:string]: string}, id: string): void {
         taskApi.editTask(data, id)
         .then((res: Task) => {
@@ -79,12 +90,14 @@
         .catch((err: Error) => console.error(err));
       },
 
+      // удаление задачи
       deleteTask(id: string): void {
         taskApi.deleteTask(id)
         .then((res: Task) => this.tasksData = this.tasksData.filter((task: Task) => task._id !== res._id))
         .catch((err: Error) => console.error(err));
       },
 
+      // установка данных выбранной задачи
       setTaskData(task: Task | null): void {
         this.taskData = task;
       },

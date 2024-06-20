@@ -46,7 +46,7 @@
 
         <input
           type="text"
-          placeholder="Метки (через запятую)"
+          placeholder="Метки"
           class="text-[16px] px-[5px] border-2 h-[60px] rounded-[7px]"
           v-model="fieldsValue.tags"
         />
@@ -93,6 +93,8 @@
     },
 
     computed: {
+
+      // название кнопки в зависимости от состояния
       getTextSubmitBtn(): string {
         return this.taskData ? 'Редактировать задачу' : 'Создать задачу';
       }
@@ -105,6 +107,8 @@
     },
 
     methods: {
+
+      // отправляет данные
       onSubmit(): void {
         if (this.taskData) {
           this.editTask(this.fieldsValue, this.taskData._id);
@@ -116,8 +120,14 @@
       },
 
       closePopup(): void {
+
+        // очищает все поля ввод
         this.fieldsValue = {}
+
+        // закрывает попап
         this.setPopupState();
+
+        // удаляет данные одной задачи
         this.setTaskData(null);
       },
     },
@@ -126,10 +136,15 @@
       const fields = this.fieldsValue;
       const taskData = this.taskData;
 
+      // вставляет данные в поля ввода из полученной задачи
       if (taskData) {
         fields.name = taskData.name;
         fields.description = taskData.description;
-        fields.date = taskData.date_completion || '';
+
+        // меняет timestamp в нормальный формат
+        fields.date_completion = taskData.date_completion ?
+        new Date(taskData.date_completion || '').toISOString().slice(0, 10) : '';
+
         fields.tags = taskData.tags.toString() || '';
       }
     }

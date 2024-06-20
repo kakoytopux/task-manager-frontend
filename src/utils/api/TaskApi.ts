@@ -5,6 +5,10 @@ interface Constructor {
   headers: {[key: string]: string}
 }
 
+/**
+ * запросы к api
+ */
+
 class TaskApi {
 
   private readonly url: string;
@@ -15,10 +19,12 @@ class TaskApi {
     this.headers = headers
   }
 
+  // регулирует ответ
   private getRequest(res: Response): Promise<any> {
     return res.ok ? res.json() : Promise.reject(res);
   }
 
+  // создание задачи
   public createTask(data: {[key:string]: string}): Promise<Task> {
     return fetch(`${this.url}/api/task`, {
       method: 'POST',
@@ -28,6 +34,7 @@ class TaskApi {
     .then((res: Response) => this.getRequest(res))
   }
 
+  // получение всех задач
   public getAllTasks(): Promise<Task[]> {
     return fetch(`${this.url}/api/task`, {
       method: 'GET',
@@ -36,6 +43,7 @@ class TaskApi {
     .then((res: Response) => this.getRequest(res))
   }
 
+  // редактирование задачи
   public editTask(data: {[key:string]: string}, id: string): Promise<Task> {
     return fetch(`${this.url}/api/task/${id}`, {
       method: 'PATCH',
@@ -45,6 +53,7 @@ class TaskApi {
     .then((res: Response) => this.getRequest(res))
   }
 
+  // удаление задачи
   public deleteTask(id: string): Promise<Task> {
     return fetch(`${this.url}/api/task/${id}`, {
       method: 'DELETE',

@@ -6,7 +6,7 @@
         <li>id: {{ task._id }}</li>
         <li>Задача: {{ task.name }}</li>
         <li>Описание: {{ task.description }}</li>
-        <li>Дата выполнения: {{ task.date_completion }}</li>
+        <li>Дата выполнения: {{ task.date_completion ? new Date(task.date_completion).toLocaleDateString() : '' }}</li>
         <li>Метки: {{ task.tags }}</li>
       </ul>
       
@@ -14,7 +14,7 @@
         <button
           type="button"
           class="text-[14px]"
-          @click="editTask(task)"
+          @click="openEditTaskPopup(task)"
         >
           Редактировать
         </button>
@@ -60,7 +60,9 @@
     },
 
     methods: {
-      editTask(task: Task): void {
+
+      // открывает попап и вставляет данные выбранной задачи
+      openEditTaskPopup(task: Task): void {
         this.setPopupState();
         this.setTaskData(task);
       },

@@ -1,3 +1,8 @@
+
+/**
+ * Типы задачи
+ */
+
 interface Task {
   createdAt: string,
   date_completion: string | null
